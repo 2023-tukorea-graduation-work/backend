@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="tuk.mento.mapper.common.login.LoginMapper">
+    <select id="login" parameterType="tuk.mento.common.vo.CustomMap" resultType="tuk.mento.common.vo.CustomMap">
+        <choose>
+
+            <when test="'MENTO'.equals(user_gb)">
+                <![CDATA[
+                    SELECT
+                        MENTO_NO AS USER_NO,
+                        PASSWORD
+                    FROM
+                        MENTO_TB
+                    WHERE
+                        EMAIL = #{email};
+                ]]>
+            </when>
+
+            <when test="'MENTI'.equals(user_gb)">
+                <![CDATA[
+                    SELECT
+                        MENTI_NO AS USER_NO,
+                        PASSWORD
+                    FROM
+                        MENTI_TB
+                    WHERE
+                        EMAIL = #{email};
+                ]]>
+            </when>
+
+        </choose>
+
+    </select>
+</mapper>

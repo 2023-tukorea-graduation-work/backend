@@ -1,0 +1,72 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.6'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.google.cloud.tools.jib' version '3.2.1'
+}
+
+group = 'gdsc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+jib {
+	from {
+		image = "openjdk:17-alpine"
+		auth {
+			username = project.DOCKER_ID
+			password = project.DOCKER_PASSWORD
+		}
+	}
+	to {
+		image = project.DOCKER_ID + "/" + project.DOCKER_IMAGE_NAME
+		auth {
+			username = project.DOCKER_ID
+			password = project.DOCKER_PASSWORD
+		}
+		tags = ["latest"]
+	}
+	container {
+		jvmFlags = ["-Xms128m", "-Xmx128m"]
+	}
+}
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// jdbc + mybatis
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.4.5'
+
+	// swaager
+	implementation 'org.springdoc:springdoc-openapi-ui:1.4.1'
+
+	// AWS S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'com.google.guava:guava:r05'
+	implementation 'com.aventrix.jnanoid:jnanoid:2.0.0'
+	testImplementation 'io.findify:s3mock_2.13:0.2.6'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
