@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import tuk.mento.dto.common.CustomResponse;
 import tuk.mento.dto.program.ProgramRegisterRequest;
 import tuk.mento.service.program.ProgramService;
@@ -21,6 +19,13 @@ public class ProgramController {
     @PostMapping
     public ResponseEntity<CustomResponse> registerProgram(@RequestBody ProgramRegisterRequest programRegisterRequest) {
         CustomResponse response = programService.registerProgram(programRegisterRequest);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<CustomResponse> selectProgramList(@RequestParam("keyword") String keyword) {
+        CustomResponse response = programService.selectProgramList(keyword);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }

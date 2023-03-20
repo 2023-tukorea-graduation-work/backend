@@ -58,4 +58,49 @@
         </foreach>
 
     </insert>
+
+    <select id="selectProgramList" resultType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            SELECT
+                ROW_NUMBER() OVER(ORDER BY PT.PROGRAM_NO) AS ROW_NUM,
+                    MT.NAME,
+                MT.COLLEGE,
+                MT.MAJOR,
+                MT.ACT_PLACE,
+                PT.PROGRAM_NO,
+                PT.PRO_START_DATE,
+                PT.PRO_FINISH_DATE,
+                DATEDIFF(PT.RECRUIT_FINISH_DATE, DATE_FORMAT(NOW(), "%Y-%m-%d")) AS DEADLINE,
+                PT.SUBJECT,
+                PT.DETAIL,
+                PT.CAPACITY,
+                (
+                    SELECT
+                        COUNT(*)
+                    FROM PROGRAM_PARTI_TB PPT
+                    WHERE PPT.PROGRAM_NO = PT.PROGRAM_NO
+                ) AS PARTICIPANT
+            FROM MENTO_TB MT
+            INNER JOIN PROGRAM_TB PT
+            ON MT.MENTO_NO = PT.MENTO_NO
+        ]]>
+        <choose>
+            <when test="keyword != null">
+                <![CDATA[
+                    WHERE PT.SUBJECT LIKE CONCAT('%', #{keyword} ,'%');
+                ]]>
+            </when>
+        </choose>
+    </select>
+
+    <select id="selectProgramWeekList" parameterType="int" resultType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            SELECT
+                PWT.DETAIL
+            FROM PROGRAM_TB PT INNER JOIN
+                 PROGRAM_WEEK_TB PWT
+                 ON PT.PROGRAM_NO = PWT.PROGRAM_NO
+            WHERE PT.PROGRAM_NO = #{PROGRAM_NO}
+        ]]>
+    </select>
 </mapper>
