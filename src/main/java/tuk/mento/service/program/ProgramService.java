@@ -66,7 +66,7 @@ public class ProgramService {
             // [2] 프로그램 주차별 정보 조회
             for(CustomMap program : programs) {
                 CustomList<CustomMap> weeks = programMapper.selectProgramWeekList(program.getInt("PROGRAM_NO"));
-                program.set("weeks", weeks);
+                program.set("WEEKS", weeks);
             }
 
             response.setObject(programs);
