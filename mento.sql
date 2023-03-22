@@ -74,3 +74,18 @@ CREATE TABLE `program_week_tb` (
    KEY `program_week_tb_FK` (`program_no`),
    CONSTRAINT `program_week_tb_FK` FOREIGN KEY (`program_no`) REFERENCES `program_tb` (`program_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='프로그램 주차';
+
+-- mento.program_parti_tb definition
+
+CREATE TABLE `program_parti_tb` (
+    `program_parti_no` int NOT NULL AUTO_INCREMENT COMMENT '프로그램 참여 번호',
+    `program_no` int NOT NULL COMMENT '프로그램 번호',
+    `mentee_no` int NOT NULL COMMENT '멘티번호',
+    `reg_dt` datetime NOT NULL COMMENT '등록일시',
+    `mod_dt` datetime NOT NULL COMMENT '수정일시',
+    PRIMARY KEY (`program_parti_no`),
+    KEY `program_parti_tb_FK` (`program_no`),
+    KEY `program_parti_tb_FK_1` (`mentee_no`),
+    CONSTRAINT `program_parti_tb_FK` FOREIGN KEY (`program_no`) REFERENCES `program_tb` (`program_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `program_parti_tb_FK_1` FOREIGN KEY (`mentee_no`) REFERENCES `mentee_tb` (`mentee_no`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

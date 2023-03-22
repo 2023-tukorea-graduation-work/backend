@@ -63,18 +63,38 @@ public class ProgramService {
             // [1] 프로그램 목록 조회
             CustomList<CustomMap> programs = programMapper.selectProgramList(keyword);
 
-            // [2] 프로그램 주차별 정보 조회
-            for(CustomMap program : programs) {
-                CustomList<CustomMap> weeks = programMapper.selectProgramWeekList(program.getInt("PROGRAM_NO"));
-                program.set("WEEKS", weeks);
-            }
-
             response.setObject(programs);
             response.setStatus("SUCCESS");
             response.setMessage("프로그램 목록 조회 성공");
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("프로그램 목록 조회 실패");
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 프로그램 상세 조회
+     * */
+    @Transactional
+    public CustomResponse selectProgramDetail(int program_no) {
+        CustomResponse response = new CustomResponse();
+
+        try {
+            // [1] 프로그램 상세 조회
+            CustomMap program = programMapper.selectProgramDetail(program_no);
+
+            // [2] 프로그램 주차별 정보 조회
+            CustomList<CustomMap> weeks = programMapper.selectProgramWeekList(program_no);
+            program.set("WEEKS", weeks);
+
+            response.setObject(program);
+            response.setStatus("SUCCESS");
+            response.setMessage("프로그램 상세 조회 성공");
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("프로그램 상세 조회 실패");
             System.out.println("exception: " + e);
         }
         return response;

@@ -28,4 +28,11 @@ public class ProgramController {
         CustomResponse response = programService.selectProgramList(keyword);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @GetMapping("/{program_no}")
+    public ResponseEntity<CustomResponse> selectProgramDetail(@PathVariable("program_no") int program_no) {
+        CustomResponse response = programService.selectProgramDetail(program_no);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
 }

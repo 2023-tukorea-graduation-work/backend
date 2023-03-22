@@ -63,7 +63,7 @@
         <![CDATA[
             SELECT
                 ROW_NUMBER() OVER(ORDER BY PT.PROGRAM_NO) AS ROW_NUM,
-                    MT.NAME,
+                MT.NAME,
                 MT.COLLEGE,
                 MT.MAJOR,
                 MT.ACT_PLACE,
@@ -93,6 +93,31 @@
         </choose>
     </select>
 
+    <select id="selectProgramDetail" resultType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            SELECT
+                MT.MENTO_NO,
+                MT.NAME,
+                MT.COLLEGE,
+                MT.MAJOR,
+                MT.GRADE,
+                MT.INTRODUCTION,
+                MT.ACT_PLACE,
+                PT.PROGRAM_NO,
+                PT.SUBJECT,
+                PT.DETAIL,
+                PT.CAPACITY,
+                PT.PRO_PLACE,
+                DATEDIFF(NOW(), PT.RECRUIT_FINISH_DATE) AS DEADLINE,
+                PT.RECRUIT_START_DATE,
+                PT.RECRUIT_FINISH_DATE
+            FROM MENTO_TB MT
+            INNER JOIN PROGRAM_TB PT
+            ON MT.MENTO_NO = PT.MENTO_NO
+            WHERE PT.PROGRAM_NO = #{program_no}
+        ]]>
+    </select>
+
     <select id="selectProgramWeekList" parameterType="int" resultType="tuk.mento.common.vo.CustomMap">
         <![CDATA[
             SELECT
@@ -100,7 +125,7 @@
             FROM PROGRAM_TB PT INNER JOIN
                  PROGRAM_WEEK_TB PWT
                  ON PT.PROGRAM_NO = PWT.PROGRAM_NO
-            WHERE PT.PROGRAM_NO = #{PROGRAM_NO}
+            WHERE PT.PROGRAM_NO = #{program_no}
         ]]>
     </select>
 </mapper>

@@ -10,4 +10,5 @@ public interface ProgramMapper {
     void registerProgramWeek(CustomMap param);
     CustomList<CustomMap> selectProgramList(String keyword);
     CustomList<CustomMap> selectProgramWeekList(int program_no);
+    CustomMap selectProgramDetail(int program_no);
 }
