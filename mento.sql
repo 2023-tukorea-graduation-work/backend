@@ -89,3 +89,46 @@ CREATE TABLE `program_parti_tb` (
     CONSTRAINT `program_parti_tb_FK` FOREIGN KEY (`program_no`) REFERENCES `program_tb` (`program_no`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `program_parti_tb_FK_1` FOREIGN KEY (`mentee_no`) REFERENCES `mentee_tb` (`mentee_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- mento.attendance_tb definition
+
+CREATE TABLE `attendance_tb` (
+     `attend_no` int NOT NULL AUTO_INCREMENT COMMENT '출석번호',
+     `program_week_no` int NOT NULL COMMENT '프로그램주차번호',
+     `mento_no` int NOT NULL COMMENT '멘토번호',
+     `mentee_no` int NOT NULL COMMENT '멘티번호',
+     `attend_st` varchar(10) NOT NULL COMMENT '출석상태',
+     `attend_date` date NOT NULL COMMENT '출석일자',
+     `reg_dt` datetime NOT NULL COMMENT '등록일시',
+     `mod_dt` datetime NOT NULL COMMENT '수정일시',
+     PRIMARY KEY (`attend_no`),
+     KEY `attendance_tb_FK` (`program_week_no`),
+     KEY `attendance_tb_FK_1` (`mento_no`),
+     KEY `attendance_tb_FK_2` (`mentee_no`),
+     CONSTRAINT `attendance_tb_FK` FOREIGN KEY (`program_week_no`) REFERENCES `program_week_tb` (`program_week_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+     CONSTRAINT `attendance_tb_FK_1` FOREIGN KEY (`mento_no`) REFERENCES `mento_tb` (`mento_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+     CONSTRAINT `attendance_tb_FK_2` FOREIGN KEY (`mentee_no`) REFERENCES `mentee_tb` (`mentee_no`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='출석';
+
+-- mento.schedule_tb definition
+
+CREATE TABLE `schedule_tb` (
+   `schedule_no` int NOT NULL AUTO_INCREMENT COMMENT '일정번호',
+   `program_week_no` int DEFAULT NULL COMMENT '프로그램 주차 번호',
+   `mentee_no` int DEFAULT NULL COMMENT '멘티번호',
+   `mento_no` int DEFAULT NULL COMMENT '멘토번호',
+   `user_gb` varchar(20) NOT NULL COMMENT '회원 구분',
+   `schedule_gb` varchar(20) NOT NULL COMMENT '일정 구분',
+   `content` varchar(100) NOT NULL COMMENT '일정 내용',
+   `schedule_start_datetime` datetime NOT NULL COMMENT '일정 시작 일시',
+   `schedule_finish_datetime` datetime NOT NULL COMMENT '일정 종료 일시',
+   `reg_dt` datetime NOT NULL COMMENT '등록일시',
+   `mod_dt` datetime NOT NULL COMMENT '수정일시',
+   PRIMARY KEY (`schedule_no`),
+   KEY `schedule_tb_FK` (`program_week_no`),
+   KEY `schedule_tb_FK_1` (`mento_no`),
+   KEY `schedule_tb_FK_2` (`mentee_no`),
+   CONSTRAINT `schedule_tb_FK` FOREIGN KEY (`program_week_no`) REFERENCES `program_week_tb` (`program_week_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+   CONSTRAINT `schedule_tb_FK_1` FOREIGN KEY (`mento_no`) REFERENCES `mento_tb` (`mento_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+   CONSTRAINT `schedule_tb_FK_2` FOREIGN KEY (`mentee_no`) REFERENCES `mentee_tb` (`mentee_no`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='일정';
