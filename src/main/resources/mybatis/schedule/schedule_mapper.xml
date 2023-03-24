@@ -46,26 +46,28 @@
                 ST.SCHEDULE_START_DATETIME,
                 ST.SCHEDULE_FINISH_DATETIME
             FROM SCHEDULE_TB ST
-            INNER JOIN PROGRAM_WEEK_TB PWT
-            ON ST.PROGRAM_WEEK_NO = PWT.PROGRAM_WEEK_NO
+                     INNER JOIN PROGRAM_WEEK_TB PWT
+                                ON ST.PROGRAM_WEEK_NO = PWT.PROGRAM_WEEK_NO
             WHERE PWT.PROGRAM_WEEK_NO IN
             (
                 SELECT
                     PROGRAM_WEEK_NO
                 FROM PROGRAM_WEEK_TB PWT2
-                WHERE PWT2.PROGRAM_NO = #{program_no}
+                WHERE PWT2.PROGRAM_NO = #{program_no]
             )
-           OR ST.MENTO_NO = #{user_no}
-           OR ST.MENTEE_NO IN
-            (
-                SELECT
-                    PPT.MENTEE_NO
-                FROM PROGRAM_PARTI_TB PPT
-                INNER JOIN PROGRAM_TB PT2
-                WHERE PT2.MENTO_NO = #{user_no}
-           )
-           AND DATE_FORMAT(ST.SCHEDULE_START_DATETIME, "%Y-%m-%d") >= #{schedule_start_date}
-           AND DATE_FORMAT(DATE_ADD(#{schedule_start_date}, interval 7 DAY), "%Y-%m-%d") <= DATE_FORMAT(ST.SCHEDULE_FINISH_DATETIME, "%Y-%m-%d")
+            AND (
+                    ST.MENTO_NO = #{user_no}
+                    OR ST.MENTEE_NO IN
+                (
+                    SELECT
+                        PPT.MENTEE_NO
+                    FROM PROGRAM_PARTI_TB PPT
+                    INNER JOIN PROGRAM_TB PT2
+                    WHERE PT2.MENTO_NO = #{user_no}
+                )
+            )
+            AND DATE_FORMAT(ST.SCHEDULE_START_DATETIME, "%Y-%m-%d") >= #{schedule_start_date}
+            AND DATE_FORMAT(DATE_ADD(#{schedule_start_date}, interval 7 DAY), "%Y-%m-%d") >= DATE_FORMAT(ST.SCHEDULE_FINISH_DATETIME, "%Y-%m-%d");
         ]]>
     </select>
 
@@ -90,8 +92,10 @@
                 FROM PROGRAM_WEEK_TB PWT2
                 WHERE PWT2.PROGRAM_NO = #{program_no}
             )
-           OR ST.MENTEE_NO = #{user_no}
-           OR ST.SCHEDULE_GB = '멘토'
+            AND (
+                ST.MENTEE_NO = #{user_no}
+                OR ST.SCHEDULE_GB = '멘토링'
+            );
         ]]>
     </select>
 </mapper>
