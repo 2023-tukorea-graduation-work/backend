@@ -53,7 +53,7 @@
                 SELECT
                     PROGRAM_WEEK_NO
                 FROM PROGRAM_WEEK_TB PWT2
-                WHERE PWT2.PROGRAM_NO = #{program_no]
+                WHERE PWT2.PROGRAM_NO = #{program_no}
             )
             AND (
                     ST.MENTO_NO = #{user_no}
