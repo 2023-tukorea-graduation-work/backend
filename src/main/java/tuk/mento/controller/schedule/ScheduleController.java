@@ -20,6 +20,7 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
 
+    @ResponseBody
     @PostMapping
     public ResponseEntity<CustomResponse> registerSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
         CustomResponse response = scheduleService.registerSchedule(scheduleRegisterRequest);

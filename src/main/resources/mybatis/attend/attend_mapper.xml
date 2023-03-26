@@ -3,5 +3,82 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tuk.mento.mapper.attend.AttendMapper">
+    <insert id="registerAttend" parameterType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            INSERT INTO ATTENDANCE_TB
+                (
+                    PROGRAM_WEEK_NO,
+                    MENTO_NO,
+                    MENTEE_NO,
+                    ATTEND_ST,
+                    REG_DT,
+                    MOD_DT
+                )
+            VALUES
+                (
+                    #{program_week_no},
+                    #{mento_no},
+                    #{mentee_no},
+                    #{attend_st},
+                    NOW(),
+                    NOW()
+                );
+        ]]>
+    </insert>
+    
+    <select id="selectMenteeInProgram" parameterType="tuk.mento.common.vo.CustomMap" resultType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            SELECT
+                MT.MENTEE_NO,
+                MT.NAME,
+                MT.SCHOOL,
+                CONCAT(MT.BIRTH_YEAR, '년생') AS AGE
+            FROM MENTEE_TB MT
+            WHERE MT.MENTEE_NO IN (
+                SELECT
+                    MENTEE_NO
+                FROM PROGRAM_PARTI_TB PPT
+                INNER JOIN PROGRAM_TB PT
+                ON PPT.PROGRAM_NO = PT.PROGRAM_NO
+                WHERE PPT.PROGRAM_NO = #{program_no}
+            );
+        ]]>
+    </select>
 
+    <select id="selectMentoProgramSchedule" parameterType="tuk.mento.common.vo.CustomMap" resultType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            SELECT
+                *
+            FROM (
+                 SELECT
+                     CONCAT(ROW_NUMBER() OVER(ORDER BY ST.SCHEDULE_NO ASC), '차시') AS CURRENT_PROGRAM_WEEK,
+                     CONCAT((
+                            SELECT
+                                COUNT(*)
+                            FROM PROGRAM_WEEK_TB PWT2
+                            WHERE PWT2.PROGRAM_NO = #{program_no}
+                        ), '차시') AS TOTAL_PROGRAM_WEEK,
+                     ST.MENTO_NO,
+                     PWT.PROGRAM_WEEK_NO,
+                     PT.PRO_START_DATE,
+                     PT.PRO_FINISH_DATE,
+                     DATE_FORMAT(ST.SCHEDULE_START_DATETIME, "%Y-%m-%d") AS SCHEDULE_START_DATETIME
+                 FROM PROGRAM_TB PT
+                 INNER JOIN PROGRAM_WEEK_TB PWT
+                 ON PT.PROGRAM_NO = PWT.PROGRAM_NO
+                 INNER JOIN SCHEDULE_TB ST
+                 ON PWT.PROGRAM_WEEK_NO = ST.PROGRAM_WEEK_NO
+                 WHERE ST.PROGRAM_WEEK_NO IN (
+                     SELECT
+                         PWT.PROGRAM_WEEK_NO
+                     FROM PROGRAM_TB PT2
+                     INNER JOIN PROGRAM_WEEK_TB PWT2
+                     ON PT2.PROGRAM_NO = PWT2.PROGRAM_WEEK_NO
+                     WHERE PT.PROGRAM_NO = #{program_no}
+                 )
+                   AND ST.SCHEDULE_GB = '멘토링'
+             ) AS RS
+            WHERE RS.CURRENT_PROGRAM_WEEK = #{current_program_week}
+        ]]>
+    </select>
 </mapper>
