@@ -128,4 +128,23 @@
             WHERE PT.PROGRAM_NO = #{program_no}
         ]]>
     </select>
+
+    <insert id="participateProgramForMentee" parameterType="tuk.mento.common.vo.CustomMap">
+		<![CDATA[
+            INSERT INTO PROGRAM_PARTI_TB
+                (
+                    PROGRAM_NO,
+                    MENTEE_NO,
+                    REG_DT,
+                    MOD_DT
+                )
+            VALUES
+                (
+                    #{program_no},
+                    #{mentee_no},
+                    NOW(),
+                    NOW()
+                );
+        ]]>
+	</insert>
 </mapper>

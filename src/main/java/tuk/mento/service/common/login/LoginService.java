@@ -75,7 +75,6 @@ public class LoginService {
             ObjectMapper mapper = new ObjectMapper();
             CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
 
-
         } catch (Exception e) {
             System.out.println("exception: " + e);
         }
