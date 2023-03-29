@@ -14,7 +14,7 @@ CREATE TABLE `mento_tb` (
     `img_url` varchar(300) NOT NULL COMMENT '프로필 이미지 URL',
     `reg_dt` datetime NOT NULL COMMENT '등록일시',
     `mod_dt` datetime NOT NULL COMMENT '수정일시',
-    PRIMARY KEY (`mento_no`)ㅁ
+    PRIMARY KEY (`mento_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- mento.mentee_tb definition
@@ -35,8 +35,6 @@ CREATE TABLE `mentee_tb` (
     PRIMARY KEY (`mentee_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
--- mento.mentee_tb definition
 
 -- mento.program_tb definition
 

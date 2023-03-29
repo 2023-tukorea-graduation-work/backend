@@ -20,5 +20,4 @@ public class SwaggerConfig{
                         .description("Mento Team Repository")
                         .url("https://github.com/2023-tukorea-graduation-work"));
     }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tuk.mento.common.vo.CustomList;
 import tuk.mento.common.vo.CustomMap;
 import tuk.mento.dto.common.CustomResponse;
+import tuk.mento.dto.program.ParticipateProgramRequest;
 import tuk.mento.dto.program.ProgramRegisterRequest;
 import tuk.mento.mapper.program.ProgramMapper;
 
@@ -95,6 +96,25 @@ public class ProgramService {
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("프로그램 상세 조회 실패");
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 프로그램 신청 정보 등록
+     * */
+    @Transactional
+    public CustomResponse participateProgramForMentee(ParticipateProgramRequest request) {
+        CustomResponse response = new CustomResponse();
+
+        try {
+
+            response.setStatus("SUCCESS");
+            response.setMessage("프로그램 신청 정보 등록 성공");
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("프로그램 신청 정보 등록 실패");
             System.out.println("exception: " + e);
         }
         return response;

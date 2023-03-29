@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tuk.mento.common.vo.CustomList;
+import tuk.mento.common.vo.CustomMap;
 
 @Getter
 @Setter
@@ -11,7 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AttendRegisterRequest {
     private int program_week_no;
-    private int mentee_no;
     private int mento_no;
-    private String attend_st;
+    private CustomList<CustomMap> attends;
 }

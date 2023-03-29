@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tuk.mento.dto.common.CustomResponse;
+import tuk.mento.dto.program.ParticipateProgramRequest;
 import tuk.mento.dto.program.ProgramRegisterRequest;
 import tuk.mento.service.program.ProgramService;
 
@@ -33,6 +34,13 @@ public class ProgramController {
     @GetMapping("/{program_no}")
     public ResponseEntity<CustomResponse> selectProgramDetail(@PathVariable("program_no") int program_no) {
         CustomResponse response = programService.selectProgramDetail(program_no);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/parti")
+    public ResponseEntity<CustomResponse> participateProgramForMentee(@RequestBody ParticipateProgramRequest participateProgramRequest) {
+        CustomResponse response = programService.participateProgramForMentee(participateProgramRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }

@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tuk.mento.mapper.schedule.ScheduleMapper">
-    <insert id="registerSchedule" parameterType="tuk.mento.common.vo.CustomMap">
+    <insert id="registerSchedule" parameterType="tuk.mento.common.vo.CustomMap"
+            useGeneratedKeys="true" keyProperty="schedule_no" keyColumn="schedule_no">
         <![CDATA[
         INSERT INTO SCHEDULE_TB
             (
@@ -46,8 +47,8 @@
                 ST.SCHEDULE_START_DATETIME,
                 ST.SCHEDULE_FINISH_DATETIME
             FROM SCHEDULE_TB ST
-                     INNER JOIN PROGRAM_WEEK_TB PWT
-                                ON ST.PROGRAM_WEEK_NO = PWT.PROGRAM_WEEK_NO
+            INNER JOIN PROGRAM_WEEK_TB PWT
+            ON ST.PROGRAM_WEEK_NO = PWT.PROGRAM_WEEK_NO
             WHERE PWT.PROGRAM_WEEK_NO IN
             (
                 SELECT
@@ -98,4 +99,23 @@
             );
         ]]>
     </select>
+
+    <update id="updateSchedule" parameterType="tuk.mento.common.vo.CustomMap">
+        <![CDATA[
+            UPDATE SCHEDULE_TB SET
+                SCHEDULE_GB = #{schedule_gb},
+                CONTENT = #{content},
+                SCHEDULE_START_DATETIME = #{schedule_start_datetime},
+                SCHEDULE_FINISH_DATETIME = #{schedule_finish_datetime},
+                MOD_DT = NOW()
+            WHERE SCHEDULE_NO = #{schedule_no};
+        ]]>
+    </update>
+
+    <delete id="deleteSchedule" parameterType="tuk.mento.common.vo.CustomMap">
+         <![CDATA[
+            DELETE FROM SCHEDULE_TB
+            WHERE SCHEDULE_NO = #{scheduleNo};
+        ]]>
+    </delete>
 </mapper>

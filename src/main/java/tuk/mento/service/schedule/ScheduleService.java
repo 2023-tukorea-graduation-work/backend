@@ -10,6 +10,7 @@ import tuk.mento.common.vo.CustomMap;
 import tuk.mento.dto.common.CustomResponse;
 import tuk.mento.dto.schedule.ScheduleAllRequest;
 import tuk.mento.dto.schedule.ScheduleRegisterRequest;
+import tuk.mento.dto.schedule.ScheduleUpdateRequest;
 import tuk.mento.mapper.schedule.ScheduleMapper;
 
 import java.time.LocalDateTime;
@@ -41,6 +42,7 @@ public class ScheduleService {
             param.set("schedule_finish_datetime", schedule_finish_datetime);
             scheduleMapper.registerSchedule(param);
 
+            response.setObject(param.getInt("schedule_no"));
             response.setStatus("SUCCESS");
             response.setMessage("일정 등록 성공");
         } catch (Exception e) {
@@ -80,6 +82,58 @@ public class ScheduleService {
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("등록된 일정 목록 조회 실패");
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 일정 수정
+     * */
+    @Transactional
+    public CustomResponse updateSchedule(ScheduleUpdateRequest request) {
+        CustomResponse response = new CustomResponse();
+
+        try {
+            // [1] 일정 수정
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime schedule_start_datetime = LocalDateTime.parse(param.getString("schedule_start_datetime"), formatter);
+            LocalDateTime schedule_finish_datetime = LocalDateTime.parse(param.getString("schedule_finish_datetime"), formatter);
+
+            param.set("schedule_start_datetime", schedule_start_datetime);
+            param.set("schedule_finish_datetime", schedule_finish_datetime);
+            scheduleMapper.updateSchedule(param);
+
+            response.setObject(param.getInt("schedule_no"));
+            response.setStatus("SUCCESS");
+            response.setMessage("일정 수정 성공");
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("일정 수정 실패");
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 일정 삭제
+     * */
+    @Transactional
+    public CustomResponse deleteSchedule(int scheduleNo) {
+        CustomResponse response = new CustomResponse();
+
+        try {
+            // [1] 일정 삭제
+            scheduleMapper.deleteSchedule(scheduleNo);
+
+            response.setStatus("SUCCESS");
+            response.setMessage("일정 삭제 성공");
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("일정 삭제 실패");
             System.out.println("exception: " + e);
         }
         return response;

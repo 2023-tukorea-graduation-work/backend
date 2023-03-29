@@ -30,11 +30,9 @@ public class AttendService {
 
             // [1-1] 프로그램 참여 멘티 목록 조회
             CustomList<CustomMap> mentees = attendMapper.selectMenteeInProgram(param);
-            System.out.println(mentees);
 
             // [1-2] 특정 주차의 멘토링 일정 및 출석 프로그램 상세 정보 조회
             CustomMap detail = attendMapper.selectMentoProgramSchedule(param);
-            System.out.println(detail);
             detail.set("MENTEES", mentees);
 
             response.setObject(detail);

@@ -9,4 +9,6 @@ public interface ScheduleMapper {
     void registerSchedule(CustomMap param);
     CustomList<CustomMap> selectAllScheduleByMento(CustomMap param);
     CustomList<CustomMap> selectAllScheduleByMentee(CustomMap param);
+    void updateSchedule(CustomMap param);
+    void deleteSchedule(int scheduleNo);
 }
