@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tuk.mento.common.vo.CustomMap;
 import tuk.mento.dto.common.CustomResponse;
-import tuk.mento.dto.mentee.MenteeRegisterRequest;
+import tuk.mento.dto.mento.MentoRegisterRequest;
 import tuk.mento.mapper.mento.MentoMapper;
 import tuk.mento.s3.manager.S3Manager;
 
@@ -29,7 +29,7 @@ public class MentoService {
     * 멘토 회원 등록
     * */
     @Transactional
-    public CustomResponse registerMento(MenteeRegisterRequest request, MultipartFile image) {
+    public CustomResponse registerMento(MentoRegisterRequest request, MultipartFile image) {
         CustomResponse response = new CustomResponse();
         try {
             // [1] 멘토 회원 등록
