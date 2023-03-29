@@ -10,4 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipateProgramRequest {
+    private int program_no;
+    private int mentee_no;
 }
