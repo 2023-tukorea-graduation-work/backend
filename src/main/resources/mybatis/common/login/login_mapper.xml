@@ -18,13 +18,13 @@
                 ]]>
             </when>
 
-            <when test="'MENTI'.equals(user_gb)">
+            <when test="'MENTEE'.equals(user_gb)">
                 <![CDATA[
                     SELECT
-                        MENTI_NO AS USER_NO,
+                        MENTEE_NO AS USER_NO,
                         PASSWORD
                     FROM
-                        MENTI_TB
+                        MENTEE_TB
                     WHERE
                         EMAIL = #{email};
                 ]]>
