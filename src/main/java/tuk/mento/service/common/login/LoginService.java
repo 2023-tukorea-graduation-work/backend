@@ -40,7 +40,7 @@ public class LoginService {
                 // [2-2] password check
                 if(passwordEncoder.matches(request.getPassword(), user.getString("PASSWORD"))) {
 
-
+                    response.setObject(user.getInt("USER_NO"));
                     response.setStatus("SUCCESS");
                     response.setMessage("로그인 성공");
                 }

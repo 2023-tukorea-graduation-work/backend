@@ -11,4 +11,5 @@ public interface ProgramMapper {
     CustomList<CustomMap> selectProgramList(String keyword);
     CustomList<CustomMap> selectProgramWeekList(int program_no);
     CustomMap selectProgramDetail(int program_no);
+    void participateProgramForMentee(CustomMap param);
 }

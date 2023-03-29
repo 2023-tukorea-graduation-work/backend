@@ -109,6 +109,10 @@ public class ProgramService {
         CustomResponse response = new CustomResponse();
 
         try {
+            // [1] 프로그램 신청 정보 등록
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+            programMapper.participateProgramForMentee(param);
 
             response.setStatus("SUCCESS");
             response.setMessage("프로그램 신청 정보 등록 성공");
