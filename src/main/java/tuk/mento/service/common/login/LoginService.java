@@ -35,12 +35,13 @@ public class LoginService {
 
             // [2] 멘토 / 멘티 로그인 구분은 param: user_gb 값으로 구분 + email check
             CustomMap user = loginMapper.login(param);
+            user.set("user_gb", request.getUser_gb());
 
             if(user != null) {
                 // [2-2] password check
                 if(passwordEncoder.matches(request.getPassword(), user.getString("PASSWORD"))) {
 
-                    response.setObject(user.getInt("USER_NO"));
+                    response.setObject(user);
                     response.setStatus("SUCCESS");
                     response.setMessage("로그인 성공");
                 }
