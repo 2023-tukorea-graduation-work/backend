@@ -57,7 +57,6 @@ public class LoginService {
                 // 로그인 정보 없음.
                 throw new Exception();
             }
-            // [3] 로그인 정보 없을 시 exception 있다면 멘토/멘티번호 반환
 
         } catch (Exception e) {
             System.out.println("exception: " + e);
